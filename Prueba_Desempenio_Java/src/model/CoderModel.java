@@ -83,6 +83,38 @@ public class CoderModel implements CRUD {
         return listCoders;
     }
 
+    public List<Coder> findByCohorte(int cohorte){
+        List<Coder> listCoders = new ArrayList<>();
+
+        Connection objConnection = ConfigDB.openConnection();
+
+        try{
+            String  sql = "SELECT * FROM coder WHERE cohorte = ?;";
+            PreparedStatement objPrepare = objConnection.prepareStatement(sql);
+
+            objPrepare.setInt(1, cohorte);
+
+            ResultSet objResult = objPrepare.executeQuery();
+
+            while(objResult.next()){
+                Coder objCoder = new Coder();
+
+                objCoder.setId(objResult.getInt("id"));
+                objCoder.setNombre(objResult.getString("nombre"));
+                objCoder.setApellidos(objResult.getString("apellidos"));
+                objCoder.setDocumento(objResult.getString("documento"));
+                objCoder.setCohorte(objResult.getInt("cohorte"));
+                objCoder.setCv(objResult.getString("cv"));
+
+                listCoders.add(objCoder);
+            }
+        }catch (SQLException e){
+            System.out.println("Error >" + e.getMessage());
+        }
+        ConfigDB.closeConnection();
+        return listCoders;
+    }
+
     public List<Coder> findByTecnologia(String tecnologia){
         List<Coder> listCoders = new ArrayList<>();
 

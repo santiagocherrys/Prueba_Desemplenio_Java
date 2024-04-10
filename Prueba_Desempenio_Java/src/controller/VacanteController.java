@@ -121,109 +121,190 @@ public class VacanteController {
     }
 
     public static void update(){
-        Object[] options = Utils.listToArray(instanceVacanteModel().findAll());
 
-        Vacante objSelected = (Vacante) JOptionPane.showInputDialog(null,
-                "Selecciona una vacante a actualizar",
-                "",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]);
+        if(Utils.listToArray(instanceVacanteModel().findAll()).length == 0){
+            JOptionPane.showMessageDialog(null,"No hay vacantes para actualizar");
+        }else{
+            Object[] options = Utils.listToArray(instanceVacanteModel().findAll());
 
-        //Se lista la empresa y se selecciona la seleccion que tiene actualmente
-        List<Object> listEmpresa =  EmpresaController.instanceEmpresaModel().findAll();
-        int index = 0;
-        for(Object iterador : listEmpresa){
-            Empresa iterEmpresa = (Empresa) iterador;
+            Vacante objSelected = (Vacante) JOptionPane.showInputDialog(null,
+                    "Selecciona una vacante a actualizar",
+                    "",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
 
-            if(iterEmpresa.getId() == objSelected.getEmpresa_id()){
-                break;
+            //Se lista la empresa y se selecciona la seleccion que tiene actualmente
+            List<Object> listEmpresa =  EmpresaController.instanceEmpresaModel().findAll();
+            int index = 0;
+            for(Object iterador : listEmpresa){
+                Empresa iterEmpresa = (Empresa) iterador;
+
+                if(iterEmpresa.getId() == objSelected.getEmpresa_id()){
+                    break;
+                }
+                index++;
             }
-            index++;
+
+            Object[] options2 = Utils.listToArray(EmpresaController.instanceEmpresaModel().findAll());
+
+            Empresa objSelectedEmpresa = (Empresa) JOptionPane.showInputDialog(null,
+                    "Selecciona una empresa",
+                    "",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options2,
+                    options2[index]);
+
+            objSelected.setEmpresa(objSelectedEmpresa);
+            objSelected.setEmpresa_id(objSelectedEmpresa.getId());
+            objSelected.setTitulo(JOptionPane.showInputDialog(null, "Ingresa el nuevo titulo", objSelected.getTitulo()));
+            objSelected.setDescripcion(JOptionPane.showInputDialog(null, "Ingresa la nueva descripcion", objSelected.getDescripcion()));
+            objSelected.setDuracion(JOptionPane.showInputDialog(null, "Ingresa la nueva duracion", objSelected.getDuracion()));
+
+            //Se hace selector para estado
+            String[] selectorEstado = {"ACTIVO","INACTIVO"};
+            index = 0;
+            for(String iterador: selectorEstado){
+                if(iterador.equals(objSelected.getEstado())){
+                    break;
+                }
+                index++;
+            }
+
+            String estado = (String) JOptionPane.showInputDialog(null,
+                    "Selecciona un estado",
+                    "estados disponibles",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    selectorEstado,
+                    selectorEstado[index]);
+
+            objSelected.setEstado(estado);
+
+            //ingresar tecnologias
+            String[] selectorTecnologias = {"Javascript, html, css","Java y bases de datos", "Java, bases de datos, Springboot"};
+
+            //Se hace selector para tecnologias
+            index = 0;
+            for(String iterador: selectorTecnologias){
+                if(iterador.equals(objSelected.getTecnologia())){
+                    break;
+                }
+                index++;
+            }
+            String tecnologia = (String) JOptionPane.showInputDialog(null,
+                    "Selecciona una tecnologia",
+                    "tecnologias disponibles",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    selectorTecnologias,
+                    selectorTecnologias[index]);
+
+            objSelected.setTecnologia(tecnologia);
+
+            //Ingresar clanes
+            String[] selectorClanes = {"Meta","Lovelace","Van Russon", "Linus" ,"Steve Jobs"};
+            index = 0;
+            for(String iterador: selectorClanes){
+                if(iterador.equals(objSelected.getClan())){
+                    break;
+                }
+                index++;
+            }
+            String clan = (String) JOptionPane.showInputDialog(null,
+                    "Selecciona un clan",
+                    "clanes disponibles",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    selectorClanes,
+                    selectorClanes[index]);
+
+            objSelected.setClan(clan);
+
+
+            instanceVacanteModel().update(objSelected);
         }
 
-        Object[] options2 = Utils.listToArray(EmpresaController.instanceEmpresaModel().findAll());
+    }
 
-        Empresa objSelectedEmpresa = (Empresa) JOptionPane.showInputDialog(null,
-                "Selecciona una empresa",
-                "",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options2,
-                options2[index]);
-
-        objSelected.setEmpresa(objSelectedEmpresa);
-        objSelected.setEmpresa_id(objSelectedEmpresa.getId());
-        objSelected.setTitulo(JOptionPane.showInputDialog(null, "Ingresa el nuevo titulo", objSelected.getTitulo()));
-        objSelected.setDescripcion(JOptionPane.showInputDialog(null, "Ingresa la nueva descripcion", objSelected.getDescripcion()));
-        objSelected.setDuracion(JOptionPane.showInputDialog(null, "Ingresa la nueva duracion", objSelected.getDuracion()));
-
-        //Se hace selector para estado
-        String[] selectorEstado = {"ACTIVO","INACTIVO"};
-        index = 0;
-        for(String iterador: selectorEstado){
-            if(iterador.equals(objSelected.getEstado())){
-                break;
-            }
-            index++;
-        }
-
-        String estado = (String) JOptionPane.showInputDialog(null,
-                "Selecciona un estado",
-                "estados disponibles",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                selectorEstado,
-                selectorEstado[index]);
-
-        objSelected.setEstado(estado);
-
-        //ingresar tecnologias
-        String[] selectorTecnologias = {"Javascript, html, css","Java y bases de datos", "Java, bases de datos, Springboot"};
-
-        //Se hace selector para tecnologias
-        index = 0;
-        for(String iterador: selectorTecnologias){
-            if(iterador.equals(objSelected.getTecnologia())){
-                break;
-            }
-            index++;
-        }
-        String tecnologia = (String) JOptionPane.showInputDialog(null,
-                "Selecciona una tecnologia",
-                "tecnologias disponibles",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                selectorTecnologias,
-                selectorTecnologias[index]);
-
-        objSelected.setTecnologia(tecnologia);
+    public static void findByClan(){
 
         //Ingresar clanes
         String[] selectorClanes = {"Meta","Lovelace","Van Russon", "Linus" ,"Steve Jobs"};
-        index = 0;
-        for(String iterador: selectorClanes){
-            if(iterador.equals(objSelected.getClan())){
-                break;
-            }
-            index++;
-        }
+
         String clan = (String) JOptionPane.showInputDialog(null,
                 "Selecciona un clan",
                 "clanes disponibles",
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 selectorClanes,
-                selectorClanes[index]);
+                selectorClanes[0]);
 
-        objSelected.setClan(clan);
+        List<Vacante> listaVacantes = new ArrayList<>();
+        listaVacantes = instanceVacanteModel().findByClan(clan);
 
+        if(listaVacantes.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No hay registros para el clan " + clan);
+        }else{
+            String imprimir = "Esta es la lista de vacantes por clan " + clan + " \n";
+            for(Vacante iterador : listaVacantes){
+                imprimir += iterador.toString() + "\n";
+            }
+            JOptionPane.showMessageDialog(null,imprimir);
+        }
 
-        instanceVacanteModel().update(objSelected);
     }
 
     public static void updateVacanteEstado(int id){
         instanceVacanteModel().updateVacanteEstado(id);
+    }
+
+    public static void findByTitulo(){
+        List<Vacante> listaVacantes = new ArrayList<>();
+
+        String titulo = JOptionPane.showInputDialog("Ingrese el titulo a buscar");
+        listaVacantes = instanceVacanteModel().findByTitulo(titulo);
+
+        if(listaVacantes.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No hay registros para el titulo " + titulo);
+        }else{
+            String imprimir = "Esta es la lista de vacantes por titulo " + titulo + " \n";
+            for(Vacante iterador : listaVacantes){
+                imprimir += iterador.toString() + "\n";
+            }
+            JOptionPane.showMessageDialog(null,imprimir);
+        }
+    }
+
+    public static void findByTecnologia(){
+        List<Vacante> listaVacantes = new ArrayList<>();
+
+        //ingresar tecnologias
+        String[] selectorTecnologias = {"Javascript, html, css","Java y bases de datos", "Java, bases de datos, Springboot"};
+
+        //Se hace selector para tecnologias
+
+        String tecnologia = (String) JOptionPane.showInputDialog(null,
+                "Selecciona una tecnologia",
+                "tecnologias disponibles",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                selectorTecnologias,
+                selectorTecnologias[0]);
+
+
+        listaVacantes = instanceVacanteModel().findByTecnologia(tecnologia);
+
+        if(listaVacantes.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No hay registros para el tecnologia " + tecnologia);
+        }else{
+            String imprimir = "Esta es la lista de vacantes por tecnologia " + tecnologia + " \n";
+            for(Vacante iterador : listaVacantes){
+                imprimir += iterador.toString() + "\n";
+            }
+            JOptionPane.showMessageDialog(null,imprimir);
+        }
     }
 }

@@ -7,6 +7,7 @@ import utils.Utils;
 
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CoderController {
@@ -121,6 +122,63 @@ public class CoderController {
     public static List<Coder> findByTecnologia(String tecnologia){
         return instanceCoderModel().findByTecnologia(tecnologia);
     }
+
+    public static void findByCohorte(){
+
+
+        try{
+            List<Coder> listaCoders = new ArrayList<>();
+            int cohorte = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cohorte 1 o 2"));
+            listaCoders = instanceCoderModel().findByCohorte(cohorte);
+
+            if(listaCoders.isEmpty()){
+                JOptionPane.showMessageDialog(null,"No hay coders para cohorte " + cohorte);
+            }else{
+                String imprimir = "Esta es la lista de coders por cohorte #" + cohorte + " \n";
+                for(Coder iterador : listaCoders){
+                    imprimir += iterador.toString() + "\n";
+                }
+                JOptionPane.showMessageDialog(null,imprimir);
+            }
+
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null,"Opcion no valida");
+        }
+
+    }
+
+
+
+    public static void findByTecnologiaImprimir(){
+        List<Coder> listaCoders = new ArrayList<>();
+
+        //ingresar tecnologias
+        String[] selectorTecnologias = {"Javascript, html, css","Java y bases de datos", "Java, bases de datos, Springboot"};
+        String tecnologia = (String) JOptionPane.showInputDialog(null,
+                "Selecciona una tecnologia",
+                "tecnologias disponibles",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                selectorTecnologias,
+                selectorTecnologias[0]);
+
+        listaCoders = instanceCoderModel().findByTecnologia(tecnologia);
+
+        if(listaCoders.isEmpty()){
+            JOptionPane.showMessageDialog(null,"No hay coders para tecnologia " +tecnologia);
+        }else{
+            String imprimir = "Esta es la lista de coders por tecnologia " + tecnologia + " \n";
+            for(Coder iterador : listaCoders){
+                imprimir += iterador.toString() + "\n";
+            }
+            JOptionPane.showMessageDialog(null,imprimir);
+        }
+
+    }
+
+
+
+
 
 
 }

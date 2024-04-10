@@ -239,4 +239,133 @@ public class VacanteModel implements CRUD {
 
         return isDeleted;
     }
+
+    public List<Vacante> findByClan(String clan){
+        List<Vacante> listVacante = new ArrayList<>();
+
+        Connection objConnection = ConfigDB.openConnection();
+
+        try{
+            String  sql = "SELECT * FROM vacante INNER JOIN empresa ON vacante.empresa_id = empresa.id WHERE clan = ?;";
+            PreparedStatement objPrepare = objConnection.prepareStatement(sql);
+
+            objPrepare.setString(1, clan);
+
+            ResultSet objResult = objPrepare.executeQuery();
+
+            while(objResult.next()){
+                Vacante objVacante = new Vacante();
+
+                objVacante.setId(objResult.getInt("vacante.id"));
+                objVacante.setEmpresa_id(objResult.getInt("vacante.empresa_id"));
+                objVacante.setTitulo(objResult.getString("vacante.titulo"));
+                objVacante.setDescripcion(objResult.getString("vacante.descripcion"));
+                objVacante.setDuracion(objResult.getString("vacante.duracion"));
+                objVacante.setEstado(objResult.getString("vacante.estado"));
+                objVacante.setTecnologia(objResult.getString("vacante.tecnologia"));
+                objVacante.setClan(objResult.getString("vacante.clan"));
+
+                Empresa objEmpresa = new Empresa();
+
+                objEmpresa.setId(objResult.getInt("empresa.id"));
+                objEmpresa.setNombre(objResult.getString("empresa.nombre"));
+                objEmpresa.setSector(objResult.getString("empresa.sector"));
+                objEmpresa.setUbicacion(objResult.getString("empresa.ubicacion"));
+                objEmpresa.setContacto(objResult.getString("empresa.contacto"));
+
+                objVacante.setEmpresa(objEmpresa);
+                listVacante.add(objVacante);
+            }
+        }catch (SQLException e){
+            System.out.println("Error >" + e.getMessage());
+        }
+        ConfigDB.closeConnection();
+        return listVacante;
+    }
+
+    public List<Vacante> findByTitulo(String titulo){
+        List<Vacante> listVacante = new ArrayList<>();
+
+        Connection objConnection = ConfigDB.openConnection();
+
+        try{
+            String  sql = "SELECT * FROM vacante INNER JOIN empresa ON vacante.empresa_id = empresa.id WHERE titulo LIKE(?);";
+            PreparedStatement objPrepare = objConnection.prepareStatement(sql);
+
+            objPrepare.setString(1, "%" + titulo + "%");
+
+            ResultSet objResult = objPrepare.executeQuery();
+
+            while(objResult.next()){
+                Vacante objVacante = new Vacante();
+
+                objVacante.setId(objResult.getInt("vacante.id"));
+                objVacante.setEmpresa_id(objResult.getInt("vacante.empresa_id"));
+                objVacante.setTitulo(objResult.getString("vacante.titulo"));
+                objVacante.setDescripcion(objResult.getString("vacante.descripcion"));
+                objVacante.setDuracion(objResult.getString("vacante.duracion"));
+                objVacante.setEstado(objResult.getString("vacante.estado"));
+                objVacante.setTecnologia(objResult.getString("vacante.tecnologia"));
+                objVacante.setClan(objResult.getString("vacante.clan"));
+
+                Empresa objEmpresa = new Empresa();
+
+                objEmpresa.setId(objResult.getInt("empresa.id"));
+                objEmpresa.setNombre(objResult.getString("empresa.nombre"));
+                objEmpresa.setSector(objResult.getString("empresa.sector"));
+                objEmpresa.setUbicacion(objResult.getString("empresa.ubicacion"));
+                objEmpresa.setContacto(objResult.getString("empresa.contacto"));
+
+                objVacante.setEmpresa(objEmpresa);
+                listVacante.add(objVacante);
+            }
+        }catch (SQLException e){
+            System.out.println("Error >" + e.getMessage());
+        }
+        ConfigDB.closeConnection();
+        return listVacante;
+    }
+
+    public List<Vacante> findByTecnologia(String tecnologia){
+        List<Vacante> listVacante = new ArrayList<>();
+
+        Connection objConnection = ConfigDB.openConnection();
+
+        try{
+            String  sql = "SELECT * FROM vacante INNER JOIN empresa ON vacante.empresa_id = empresa.id WHERE tecnologia = ?;";
+            PreparedStatement objPrepare = objConnection.prepareStatement(sql);
+
+            objPrepare.setString(1, tecnologia);
+
+            ResultSet objResult = objPrepare.executeQuery();
+
+            while(objResult.next()){
+                Vacante objVacante = new Vacante();
+
+                objVacante.setId(objResult.getInt("vacante.id"));
+                objVacante.setEmpresa_id(objResult.getInt("vacante.empresa_id"));
+                objVacante.setTitulo(objResult.getString("vacante.titulo"));
+                objVacante.setDescripcion(objResult.getString("vacante.descripcion"));
+                objVacante.setDuracion(objResult.getString("vacante.duracion"));
+                objVacante.setEstado(objResult.getString("vacante.estado"));
+                objVacante.setTecnologia(objResult.getString("vacante.tecnologia"));
+                objVacante.setClan(objResult.getString("vacante.clan"));
+
+                Empresa objEmpresa = new Empresa();
+
+                objEmpresa.setId(objResult.getInt("empresa.id"));
+                objEmpresa.setNombre(objResult.getString("empresa.nombre"));
+                objEmpresa.setSector(objResult.getString("empresa.sector"));
+                objEmpresa.setUbicacion(objResult.getString("empresa.ubicacion"));
+                objEmpresa.setContacto(objResult.getString("empresa.contacto"));
+
+                objVacante.setEmpresa(objEmpresa);
+                listVacante.add(objVacante);
+            }
+        }catch (SQLException e){
+            System.out.println("Error >" + e.getMessage());
+        }
+        ConfigDB.closeConnection();
+        return listVacante;
+    }
 }

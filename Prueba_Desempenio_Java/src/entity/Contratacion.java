@@ -107,9 +107,9 @@ public class Contratacion {
     @Override
     public String toString() {
         return "Contratacion{" +
-                ", Vacante(titulo: " + vacante.getTitulo() + ", descripcion: " + vacante.getDescripcion() + ")\n"+
-                ", Empresa(nombre: " + empresa.getNombre() + ", ubicacion: " + empresa.getUbicacion() + ")\n"+
-                ", Coder(nombre: " + coder.getNombre() + " , apellidos: " + coder.getApellidos() + " , documento: " + coder.getDocumento() + " , tecnologia: " + coder.getCv() + ")\n"+
+                ", Vacante(titulo: " + vacante.getTitulo() +
+                ", Empresa(nombre: " + empresa.getNombre() +
+                ", Coder(nombre: " + coder.getNombre() + " " + coder.getApellidos() +
                 ", salario=" + salario +
                 '}';
     }
@@ -121,9 +121,18 @@ public class Contratacion {
                 ", coder_id=" + coder_id +
                 ", fecha_aplicacion='" + fecha_aplicacion + '\'' +
                 ", estado='" + estado + '\'' +
-                ", salario=" + salario +
-                ", vacante=" + vacante +
+                ", salario=" + salario + "\n" +
+                ", vacante=" + vacante + "\n" +
                 ", coder=" + coder +
+                '}';
+    }
+
+    public String imprimirAlCrear(){
+        return "Contratacion{" +
+                ", Vacante(titulo: " + vacante.getTitulo() + ", descripcion: " + vacante.getDescripcion() + ")\n"+
+                ", Empresa(nombre: " + empresa.getNombre() + ", ubicacion: " + empresa.getUbicacion() + ")\n"+
+                ", Coder(nombre: " + coder.getNombre() + " , apellidos: " + coder.getApellidos() + " , documento: " + coder.getDocumento() + " , tecnologia: " + coder.getCv() + ")\n"+
+                ", salario=" + salario +
                 '}';
     }
 }
